@@ -5,6 +5,8 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
+    private JButton searchButton; // Declare searchButton as a field
+    
     public void initialize() {
         this.setTitle("Document Analyzer");
         this.setSize(800, 500);
@@ -38,8 +40,6 @@ public class MainFrame extends JFrame {
         mainGrid.setLayout(new GridLayout(2,2));
         mainPanel.add(mainGrid, BorderLayout.CENTER);
 
-
-
         // Text box panel
         JPanel textBoxPanel = new JPanel();
         textBoxPanel.setLayout(new BoxLayout(textBoxPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
@@ -47,8 +47,8 @@ public class MainFrame extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainPanel.add(scrollPane, BorderLayout.WEST); // Add to the left of main panel
 
-        mainGrid.add(new JButton("Button 5"));
-        mainGrid.add(new JButton("Button 5"));
+        mainGrid.add(new JPanel());
+        mainGrid.add(new JPanel());
 
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BorderLayout());
@@ -60,20 +60,26 @@ public class MainFrame extends JFrame {
         flowPanel.setLayout(new FlowLayout());
         searchPanel.add(flowPanel, BorderLayout.SOUTH);
 
-
-        // Text box
+        // Search Text box
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 30));
         flowPanel.add(textField); // Add without specifying any constraints
 
-        // Button 
-        JButton searchButton = new JButton("Search");
+        // Search Button
+        searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(100, 30));
+        searchButton.setEnabled(false); // Initially disable the search button
+        // Add listener that prints the text in the text box
+        searchButton.addActionListener(e -> {
+            if (textField.getText().isEmpty()) { // Check if text box is empty
+                JOptionPane.showMessageDialog(this, "Please enter a search term", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            System.out.println("Searching for: " + textField.getText());
+        });
         flowPanel.add(searchButton); // Add without specifying any constraints
 
-
-        mainGrid.add(new JButton("Button 5"));
-        
+        mainGrid.add(new JPanel());
 
         // dirLabel
         JLabel dirLabel = new JLabel("Select a folder to analyze:");
@@ -90,14 +96,15 @@ public class MainFrame extends JFrame {
         // Add listener that lets you choose folders
         selectButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Only allow directories
             fileChooser.showOpenDialog(null);
             if (fileChooser.getSelectedFile() != null) {
-                dirLabel.setText(fileChooser.getSelectedFile().getName());
+                searchButton.setEnabled(false);
+                dirLabel.setText(fileChooser.getSelectedFile().getName()); // Set label to the selected folder name
 
                 // for every text file in the folder
                 String files[] = fileChooser.getSelectedFile().list();
-                ArrayList<String> txtFiles = new ArrayList<>();
+                ArrayList<String> txtFiles = new ArrayList<>(); // List of text files
                 for (String file : files) {
                     if (file.endsWith(".txt")) {
                         txtFiles.add(file);
@@ -107,22 +114,23 @@ public class MainFrame extends JFrame {
                 // Remove existing checkboxes before adding new ones
                 textBoxPanel.removeAll();
 
-                ArrayList<String> selectedFiles = new ArrayList<>();
+                ArrayList<String> selectedFiles = new ArrayList<>(); // List of selected files
                 // Add all text files to a list with checkboxes
                 for (String txtFile : txtFiles) {
                     JCheckBox checkBox = new JCheckBox(txtFile);
-                    checkBox.addItemListener(new ItemListener() {
+                    checkBox.addItemListener(new ItemListener() { // Add item listener to each checkbox
                         @Override
                         public void itemStateChanged(ItemEvent e) {
-                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                            if (e.getStateChange() == ItemEvent.SELECTED) { // Add to selectedFiles if selected
                                 System.out.println("Selected: " + txtFile);
                                 selectedFiles.add(txtFile);
-                                // Do something when checkbox is selected
-                            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                            } else if (e.getStateChange() == ItemEvent.DESELECTED) { // Remove from selectedFiles if deselected
                                 System.out.println("Deselected: " + txtFile);
                                 selectedFiles.remove(txtFile);
-                                // Do something when checkbox is deselected
                             }
+                            System.out.println(selectedFiles);
+                            // Enable search button only if there are selected files
+                            searchButton.setEnabled(!selectedFiles.isEmpty());
                         }
                     });
                     textBoxPanel.add(checkBox);
