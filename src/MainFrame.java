@@ -50,20 +50,29 @@ public class MainFrame extends JFrame {
         mainGrid.add(new JButton("Button 5"));
         mainGrid.add(new JButton("Button 5"));
 
-        // add flow layout and text box at the bottom of it
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BorderLayout());
-        searchPanel.setBackground(Color.red);
+        searchPanel.setBackground(Color.gray);
         mainGrid.add(searchPanel);
+
+        // Add flow layout to bottom of search panel
+        JPanel flowPanel = new JPanel();
+        flowPanel.setLayout(new FlowLayout());
+        searchPanel.add(flowPanel, BorderLayout.SOUTH);
+
 
         // Text box
         JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(200, 30));
-        searchPanel.add(textField, BorderLayout.SOUTH); // Add without specifying any constraints
+        textField.setPreferredSize(new Dimension(150, 30));
+        flowPanel.add(textField); // Add without specifying any constraints
+
+        // Button 
+        JButton searchButton = new JButton("Search");
+        searchButton.setPreferredSize(new Dimension(100, 30));
+        flowPanel.add(searchButton); // Add without specifying any constraints
+
 
         mainGrid.add(new JButton("Button 5"));
-        
-
         
 
         // dirLabel
