@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
     public void initialize() {
@@ -31,19 +34,20 @@ public class MainFrame extends JFrame {
 
         // Text box panel
         JPanel textBoxPanel = new JPanel();
-        textBoxPanel.setLayout(new BorderLayout());
-        mainPanel.add(textBoxPanel, BorderLayout.WEST); // Add to the left of main panel
+        textBoxPanel.setLayout(new BoxLayout(textBoxPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
+        JScrollPane scrollPane = new JScrollPane(textBoxPanel); // Add textBoxPanel to a JScrollPane
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(scrollPane, BorderLayout.WEST); // Add to the left of main panel
 
         // Text box
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 30));
-        textBoxPanel.add(textField, BorderLayout.SOUTH);
+        textBoxPanel.add(textField);
 
         // dirLabel
         JLabel dirLabel = new JLabel("Select a folder to analyze:");
         dirLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        textBoxPanel.add(dirLabel, BorderLayout.NORTH);
-
+        textBoxPanel.add(dirLabel);
 
         // Add select button to main panel
         JButton selectButton = new JButton("Select File");
@@ -58,7 +62,44 @@ public class MainFrame extends JFrame {
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             fileChooser.showOpenDialog(null);
             if (fileChooser.getSelectedFile() != null) {
-            dirLabel.setText(fileChooser.getSelectedFile().getName());
+                dirLabel.setText(fileChooser.getSelectedFile().getName());
+
+                // for every text file in the folder
+                String files[] = fileChooser.getSelectedFile().list();
+                ArrayList<String> txtFiles = new ArrayList<>();
+                for (String file : files) {
+                    if (file.endsWith(".txt")) {
+                        txtFiles.add(file);
+                    }
+                }
+
+                // Remove existing checkboxes before adding new ones
+                textBoxPanel.removeAll();
+
+                ArrayList<String> selectedFiles = new ArrayList<>();
+                // Add all text files to a list with checkboxes
+                for (String txtFile : txtFiles) {
+                    JCheckBox checkBox = new JCheckBox(txtFile);
+                    checkBox.addItemListener(new ItemListener() {
+                        @Override
+                        public void itemStateChanged(ItemEvent e) {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                System.out.println("Selected: " + txtFile);
+                                selectedFiles.add(txtFile);
+                                // Do something when checkbox is selected
+                            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                                System.out.println("Deselected: " + txtFile);
+                                selectedFiles.remove(txtFile);
+                                // Do something when checkbox is deselected
+                            }
+                        }
+                    });
+                    textBoxPanel.add(checkBox);
+                }
+
+                // Repaint the panel to reflect the changes
+                textBoxPanel.revalidate();
+                textBoxPanel.repaint();
             }
         });
 
