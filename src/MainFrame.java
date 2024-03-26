@@ -32,6 +32,14 @@ public class MainFrame extends JFrame {
         mainPanel.setBackground(Color.gray);
         this.add(mainPanel, BorderLayout.CENTER);
 
+        // Main Grid
+        JPanel mainGrid = new JPanel();
+        mainGrid.setBackground(Color.gray);
+        mainGrid.setLayout(new GridLayout(2,2));
+        mainPanel.add(mainGrid, BorderLayout.CENTER);
+
+
+
         // Text box panel
         JPanel textBoxPanel = new JPanel();
         textBoxPanel.setLayout(new BoxLayout(textBoxPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
@@ -39,10 +47,24 @@ public class MainFrame extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainPanel.add(scrollPane, BorderLayout.WEST); // Add to the left of main panel
 
+        mainGrid.add(new JButton("Button 5"));
+        mainGrid.add(new JButton("Button 5"));
+
+        // add flow layout and text box at the bottom of it
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new BorderLayout());
+        searchPanel.setBackground(Color.red);
+        mainGrid.add(searchPanel);
+
         // Text box
         JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(150, 30));
-        textBoxPanel.add(textField);
+        textField.setPreferredSize(new Dimension(200, 30));
+        searchPanel.add(textField, BorderLayout.SOUTH); // Add without specifying any constraints
+
+        mainGrid.add(new JButton("Button 5"));
+        
+
+        
 
         // dirLabel
         JLabel dirLabel = new JLabel("Select a folder to analyze:");
