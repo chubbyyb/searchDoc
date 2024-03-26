@@ -4,7 +4,7 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     public void initialize() {
         this.setTitle("Document Analyzer");
-        this.setSize(500, 500);
+        this.setSize(800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
@@ -29,23 +29,38 @@ public class MainFrame extends JFrame {
         mainPanel.setBackground(Color.gray);
         this.add(mainPanel, BorderLayout.CENTER);
 
-        // Add select button at bottom of main panel
+        // Text box panel
+        JPanel textBoxPanel = new JPanel();
+        textBoxPanel.setLayout(new BorderLayout());
+        mainPanel.add(textBoxPanel, BorderLayout.WEST); // Add to the left of main panel
+
+        // Text box
+        JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(150, 30));
+        textBoxPanel.add(textField, BorderLayout.SOUTH);
+
+        // dirLabel
+        JLabel dirLabel = new JLabel("Select a folder to analyze:");
+        dirLabel.setFont(new Font("Arial", Font.BOLD, 13));
+        textBoxPanel.add(dirLabel, BorderLayout.NORTH);
+
+
+        // Add select button to main panel
         JButton selectButton = new JButton("Select File");
         selectButton.setFont(new Font("Arial", Font.BOLD, 18));
         selectButton.setBackground(Color.BLACK);
         selectButton.setForeground(Color.WHITE);
-        selectButton.setPreferredSize(new Dimension(150, 50)); // Set preferred size
-        // Add listner to button
+        selectButton.setPreferredSize(new Dimension(150, 50));
+
+        // Add listener that lets you choose folders
         selectButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
-            int response = fileChooser.showOpenDialog(null);
-            if (response == JFileChooser.APPROVE_OPTION) {
-                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                System.out.println("Selected file path: " + filePath);
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.showOpenDialog(null);
+            if (fileChooser.getSelectedFile() != null) {
+            dirLabel.setText(fileChooser.getSelectedFile().getName());
             }
         });
-
-
 
         mainPanel.add(selectButton, BorderLayout.SOUTH); // Add button to SOUTH position
 
