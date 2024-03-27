@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
     private JButton searchButton; // Declare searchButton as a field
+    private ArrayList<String> selectedFiles = new ArrayList<>(); // List of selected files
+    public String dirPath;
+    app app = new app(); // Create an instance of the app class
     
     public void initialize() {
         this.setTitle("Document Analyzer");
@@ -76,6 +79,8 @@ public class MainFrame extends JFrame {
                 return;
             }
             System.out.println("Searching for: " + textField.getText());
+            // call checkWordInFile method from app class
+            app.checkWordInFile(textField.getText(), selectedFiles.toArray(new String[0]));
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
 
@@ -101,6 +106,7 @@ public class MainFrame extends JFrame {
             if (fileChooser.getSelectedFile() != null) {
                 searchButton.setEnabled(false);
                 dirLabel.setText(fileChooser.getSelectedFile().getName()); // Set label to the selected folder name
+                dirPath = fileChooser.getSelectedFile().getAbsolutePath(); // Set dirPath to the selected folder path
 
                 // for every text file in the folder
                 String files[] = fileChooser.getSelectedFile().list();
@@ -114,7 +120,8 @@ public class MainFrame extends JFrame {
                 // Remove existing checkboxes before adding new ones
                 textBoxPanel.removeAll();
 
-                ArrayList<String> selectedFiles = new ArrayList<>(); // List of selected files
+                // empty the selectedFiles list
+                selectedFiles.clear();
                 // Add all text files to a list with checkboxes
                 for (String txtFile : txtFiles) {
                     JCheckBox checkBox = new JCheckBox(txtFile);
@@ -123,10 +130,10 @@ public class MainFrame extends JFrame {
                         public void itemStateChanged(ItemEvent e) {
                             if (e.getStateChange() == ItemEvent.SELECTED) { // Add to selectedFiles if selected
                                 System.out.println("Selected: " + txtFile);
-                                selectedFiles.add(txtFile);
+                                selectedFiles.add(dirPath + '\\' + txtFile);
                             } else if (e.getStateChange() == ItemEvent.DESELECTED) { // Remove from selectedFiles if deselected
                                 System.out.println("Deselected: " + txtFile);
-                                selectedFiles.remove(txtFile);
+                                selectedFiles.remove(dirPath + '\\' + txtFile);
                             }
                             System.out.println(selectedFiles);
                             // Enable search button only if there are selected files

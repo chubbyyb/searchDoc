@@ -6,6 +6,13 @@ public class app {
 
     public void checkWordInFile(String word, String[] selectedFiles)
     {
+        // print word and selected files
+        System.out.println("Word: " + word);
+        System.out.println("Selected files: ");
+        for (String file : selectedFiles) {
+            System.out.println(file);
+        }
+        
         // for every selected file
         for (String file : selectedFiles) {
             try {
