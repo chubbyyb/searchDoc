@@ -83,11 +83,9 @@ public class MainFrame extends JFrame {
         strongestCount.setFont(new Font("Arial", Font.BOLD, 13));
         strongestPanel.add(strongestCount);
 
-        // add random buton
-        percentagePanel = new JPanel();
-        percentagePanel.setLayout(new BorderLayout());
-        strongestPanel.add(percentagePanel);
+        strongestPanel.add(new JPanel());
         mainGrid.add(strongestPanel);
+
         
         // Chart panel
         chartPanel = new JPanel();
@@ -190,7 +188,9 @@ public class MainFrame extends JFrame {
         verticalPanel.add(wholeWordMatchBtn);
         
 
-        mainGrid.add(new JPanel());
+        percentagePanel = new JPanel();
+        percentagePanel.setLayout(new BorderLayout());
+        mainGrid.add(percentagePanel);
 
         // dirLabel
         JLabel dirLabel = new JLabel("Select a folder to analyze:");
