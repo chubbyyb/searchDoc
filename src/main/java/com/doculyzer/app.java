@@ -8,7 +8,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class app {
+    public boolean caseMatch = false;
+    public boolean wholeWordMatch = false;
+
+    public void setCaseMatch(boolean caseMatch) {
+        System.out.println("Setting case match to " + caseMatch);
+        this.caseMatch = caseMatch;
+    }
+
+    public void setWholeWordMatch(boolean wholeWordMatch) {
+        System.out.println("Setting whole word match to " + wholeWordMatch);
+        this.wholeWordMatch = wholeWordMatch;
+    }
+
     public HashMap<String, Integer> checkWordInFile(String wordPattern, String[] selectedFiles) {
+
+        if (!caseMatch) {
+            wordPattern = "(?i)" + wordPattern;
+        }
+
+        if (wholeWordMatch) {
+            wordPattern = "\\b" + wordPattern + "\\b";
+        }
+
         // make a dictionary of every file and how many times the word appears in it
         HashMap<String, Integer> fileOccurrences = new HashMap<>();
 

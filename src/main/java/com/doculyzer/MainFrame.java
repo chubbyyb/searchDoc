@@ -12,6 +12,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.util.HashMap;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+
 
 public class MainFrame extends JFrame {
     private JButton searchButton; // Declare searchButton as a field
@@ -85,8 +90,7 @@ public class MainFrame extends JFrame {
 
         // Search Panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BorderLayout());
-        searchPanel.setBackground(Color.gray);
+        searchPanel.setLayout(new BorderLayout());;
         mainGrid.add(searchPanel);
 
         // Add flow layout to bottom of search panel
@@ -94,10 +98,29 @@ public class MainFrame extends JFrame {
         flowPanel.setLayout(new FlowLayout());
         searchPanel.add(flowPanel, BorderLayout.SOUTH);
 
-        // add vertical panel to the top of the search panel
+        // add vertical panel to the LEFT of the search panel
         JPanel verticalPanel = new JPanel();
         verticalPanel.setLayout(new GridLayout(2, 1));
         searchPanel.add(verticalPanel, BorderLayout.WEST);
+
+        // add vertical panel to the right of the search panel
+        JPanel verticalPanel2 = new JPanel();
+        verticalPanel2.setLayout(new GridLayout(2, 1));
+        searchPanel.add(verticalPanel2, BorderLayout.EAST);
+
+        // add button to the vertical panel
+        JButton regexBtn = new JButton("Regex Help");
+        regexBtn.setPreferredSize(new Dimension(100, 30));
+        // on click, send to website
+        regexBtn.addActionListener(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://regex101.com/"));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        });
+        verticalPanel2.add(regexBtn, BorderLayout.SOUTH);
+
 
 
         // Search Text box
@@ -128,6 +151,10 @@ public class MainFrame extends JFrame {
 
         // add checkbox label on top of the text box
         JCheckBox caseMatchBtn = new JCheckBox("Case Match");
+        // set to true
+        caseMatchBtn.setSelected(true);
+        app.setCaseMatch(true);
+
         caseMatchBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -138,6 +165,9 @@ public class MainFrame extends JFrame {
 
         // add whole word match checkbox under the checkbox label
         JCheckBox wholeWordMatchBtn = new JCheckBox("Whole Word Match");
+        // set to true
+        wholeWordMatchBtn.setSelected(true);
+        app.setWholeWordMatch(true);
         wholeWordMatchBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
