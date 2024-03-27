@@ -186,7 +186,12 @@ public class MainFrame extends JFrame {
         // Creating a DefaultCategoryDataset for the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String file : fileOccurrences.keySet()) {
-            dataset.addValue(fileOccurrences.get(file), "Appearances", file);
+            int count = fileOccurrences.get(file);
+            String fileName = file.substring(file.lastIndexOf("\\") + 1);
+            // Strip extension from file name
+            fileName = fileName.substring(0, fileName.lastIndexOf("."));
+
+            dataset.addValue(count, "Appearances", fileName);
         }
         
         // Creating the bar chart
