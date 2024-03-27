@@ -10,6 +10,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 import java.util.HashMap;
 
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class MainFrame extends JFrame {
     private JPanel chartPanel;
     private JLabel strongestCount;
     private JLabel strongestMatch;
+    private JPanel percentagePanel;
     app app = new app(); // Create an instance of the app class
     
     public void initialize() {
@@ -69,7 +72,7 @@ public class MainFrame extends JFrame {
 
         
         JPanel strongestPanel = new JPanel();
-        strongestPanel.setLayout(new GridLayout(2, 1));
+        strongestPanel.setLayout(new GridLayout(2, 2));
         strongestPanel.setBackground(Color.gray);
 
         strongestMatch = new JLabel("File: ");
@@ -80,6 +83,10 @@ public class MainFrame extends JFrame {
         strongestCount.setFont(new Font("Arial", Font.BOLD, 13));
         strongestPanel.add(strongestCount);
 
+        // add random buton
+        percentagePanel = new JPanel();
+        percentagePanel.setLayout(new BorderLayout());
+        strongestPanel.add(percentagePanel);
         mainGrid.add(strongestPanel);
         
         // Chart panel
@@ -146,6 +153,7 @@ public class MainFrame extends JFrame {
                 System.out.println(file + ": " + occurences.get(file));
             }
             createChart(occurences);
+            createStats(occurences);
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
 
@@ -290,5 +298,44 @@ public class MainFrame extends JFrame {
 
         chartPanel.revalidate();
         chartPanel.repaint();
+    }
+
+    private void createStats(HashMap<String, Integer> fileOccurrences)
+    {
+        // clear the panel
+        percentagePanel.removeAll();
+
+        int total = 0;
+        for (String file : fileOccurrences.keySet()) {
+            total += fileOccurrences.get(file);
+        }
+
+        // add pie chart to percentage panel
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for (String file : fileOccurrences.keySet()) {
+            String fn = file.substring(file.lastIndexOf("\\") + 1);
+            fn = fn.substring(0, fn.lastIndexOf("."));
+            dataset.setValue(fn, fileOccurrences.get(file));
+        }
+
+        JFreeChart chart = ChartFactory.createPieChart("File Occurrences", dataset);
+        ChartPanel chartPanelComponent = new ChartPanel(chart);
+        percentagePanel.add(chartPanelComponent);
+
+        // add labels to percentage panel
+        //JLabel totalLabel = new JLabel("Total: " + total);
+        //percentagePanel.add(totalLabel);
+        // Add percentage each file contributes
+        //for (String file : fileOccurrences.keySet()) {
+        //    String fn = file.substring(file.lastIndexOf("\\") + 1);
+        //    fn = fn.substring(0, fn.lastIndexOf("."));
+        //    JLabel label = new JLabel(fn + ": " + (fileOccurrences.get(file) * 100 / total) + "%");
+        //    percentagePanel.add(label);
+        //}
+
+
+        percentagePanel.revalidate();
+        percentagePanel.repaint();
+
     }
 }
