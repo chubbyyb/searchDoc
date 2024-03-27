@@ -18,6 +18,8 @@ public class MainFrame extends JFrame {
     private ArrayList<String> selectedFiles = new ArrayList<>(); // List of selected files
     public String dirPath;
     private JPanel chartPanel;
+    private JLabel strongestCount;
+    private JLabel strongestMatch;
     app app = new app(); // Create an instance of the app class
     
     public void initialize() {
@@ -60,17 +62,28 @@ public class MainFrame extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainPanel.add(scrollPane, BorderLayout.WEST); // Add to the left of main panel
 
-        mainGrid.add(new JPanel());
+        
+        JPanel strongestPanel = new JPanel();
+        strongestPanel.setLayout(new GridLayout(2, 1));
+        strongestPanel.setBackground(Color.gray);
 
+        strongestMatch = new JLabel("File: ");
+        strongestMatch.setFont(new Font("Arial", Font.BOLD, 13));
+        strongestPanel.add(strongestMatch);
+
+        strongestCount = new JLabel("Count: ");
+        strongestCount.setFont(new Font("Arial", Font.BOLD, 13));
+        strongestPanel.add(strongestCount);
+
+        mainGrid.add(strongestPanel);
         
         // Chart panel
         chartPanel = new JPanel();
         chartPanel.setLayout(new BorderLayout());
+
         mainGrid.add(chartPanel);
 
-
-
-        
+        // Search Panel
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BorderLayout());
         searchPanel.setBackground(Color.gray);
@@ -80,6 +93,12 @@ public class MainFrame extends JFrame {
         JPanel flowPanel = new JPanel();
         flowPanel.setLayout(new FlowLayout());
         searchPanel.add(flowPanel, BorderLayout.SOUTH);
+
+        // add vertical panel to the top of the search panel
+        JPanel verticalPanel = new JPanel();
+        verticalPanel.setLayout(new GridLayout(2, 1));
+        searchPanel.add(verticalPanel, BorderLayout.WEST);
+
 
         // Search Text box
         JTextField textField = new JTextField();
@@ -106,6 +125,27 @@ public class MainFrame extends JFrame {
             createChart(occurences);
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
+
+        // add checkbox label on top of the text box
+        JCheckBox caseMatchBtn = new JCheckBox("Case Match");
+        caseMatchBtn.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                app.setCaseMatch(e.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
+        verticalPanel.add(caseMatchBtn);
+
+        // add whole word match checkbox under the checkbox label
+        JCheckBox wholeWordMatchBtn = new JCheckBox("Whole Word Match");
+        wholeWordMatchBtn.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                app.setWholeWordMatch(e.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
+        verticalPanel.add(wholeWordMatchBtn);
+        
 
         mainGrid.add(new JPanel());
 
@@ -183,6 +223,10 @@ public class MainFrame extends JFrame {
         // Destroy old chart if exists
         chartPanel.removeAll();
 
+        // get the highest value
+        int highest = 0;
+        String strongest = "";
+
         // Creating a DefaultCategoryDataset for the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String file : fileOccurrences.keySet()) {
@@ -191,6 +235,11 @@ public class MainFrame extends JFrame {
             // Strip extension from file name
             fileName = fileName.substring(0, fileName.lastIndexOf("."));
 
+            // Check if the current count is the highest
+            if (count > highest) {
+                highest = count;
+                strongest = fileName;
+            }
             dataset.addValue(count, "Appearances", fileName);
         }
         
@@ -204,6 +253,11 @@ public class MainFrame extends JFrame {
         // Creating a ChartPanel to hold the chart
         ChartPanel chartPanelComponent = new ChartPanel(chart);
         chartPanel.add(chartPanelComponent, BorderLayout.CENTER);
+
+        // Update the strongest match label
+        strongestMatch.setText("File: " + strongest);
+        strongestCount.setText("Count: " + highest);
+
         chartPanel.revalidate();
         chartPanel.repaint();
     }
