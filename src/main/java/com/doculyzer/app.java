@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 public class app {
     public boolean caseMatch = false;
     public boolean wholeWordMatch = false;
+    private HashMap<String, Integer> totalWords = new HashMap<>();
+    private HashMap<String, Integer> fileOccurrences = new HashMap<>();
 
     public void setCaseMatch(boolean caseMatch) {
         System.out.println("Setting case match to " + caseMatch);
@@ -22,6 +24,9 @@ public class app {
     }
 
     public HashMap<String, Integer> checkWordInFile(String wordPattern, String[] selectedFiles) {
+        
+        totalWords.clear();
+        fileOccurrences.clear();
 
         if (!caseMatch) {
             wordPattern = "(?i)" + wordPattern;
@@ -30,9 +35,6 @@ public class app {
         if (wholeWordMatch) {
             wordPattern = "\\b" + wordPattern + "\\b";
         }
-
-        // make a dictionary of every file and how many times the word appears in it
-        HashMap<String, Integer> fileOccurrences = new HashMap<>();
 
         // Compile the regular expression pattern
         Pattern pattern = Pattern.compile(wordPattern);
@@ -57,6 +59,13 @@ public class app {
                             fileOccurrences.put(file, 1);
                         }
                     }
+
+                    // Count the total words in the file
+                    if (totalWords.containsKey(file)) {
+                        totalWords.put(file, totalWords.get(file) + line.split(" ").length);
+                    } else {
+                        totalWords.put(file, line.split(" ").length);
+                    }
                 }
                 reader.close();
             } catch (IOException e) {
@@ -64,6 +73,26 @@ public class app {
             }
         }
         return fileOccurrences;
+    }
+
+    // unused function
+    public HashMap<String, Integer> percentageOfText()
+    {
+        // calculate percentage using totalwords and fileoccurrences, it has already been called
+        // print the number of words in each file
+        for (String file : totalWords.keySet()) {
+            System.out.println("Total words in " + file + ": " + totalWords.get(file));
+        }
+        // print the number of occurrences of the word in each file
+        for (String file : fileOccurrences.keySet()) {
+            System.out.println("Occurrences in " + file + ": " + fileOccurrences.get(file));
+        }
+        HashMap<String, Integer> percentage = new HashMap<>();
+        for (String file : fileOccurrences.keySet()) {
+            percentage.put(file, (int)(fileOccurrences.get(file) * 100) / totalWords.get(file));
+        }
+        return percentage;
+
     }
     
     public static void main(String[] args) {

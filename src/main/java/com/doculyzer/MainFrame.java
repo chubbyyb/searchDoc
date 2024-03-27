@@ -154,6 +154,11 @@ public class MainFrame extends JFrame {
             }
             createChart(occurences);
             createStats(occurences);
+            //HashMap<String, Integer> percentageText = app.percentageOfText();
+            // print the occurences
+            //for (String file : percentageText.keySet()) {
+            //    System.out.println(file + ":gyat " + percentageText.get(file));
+            //}
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
 
