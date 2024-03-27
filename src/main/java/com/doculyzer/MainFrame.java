@@ -54,12 +54,12 @@ public class MainFrame extends JFrame {
         // Main Panel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout()); // Change layout to BorderLayout
-        mainPanel.setBackground(Color.gray);
+        //mainPanel.setBackground(Color.gray);
         this.add(mainPanel, BorderLayout.CENTER);
 
         // Main Grid
         JPanel mainGrid = new JPanel();
-        mainGrid.setBackground(Color.gray);
+        //mainGrid.setBackground(Color.gray);
         mainGrid.setLayout(new GridLayout(2,2));
         mainPanel.add(mainGrid, BorderLayout.CENTER);
 
@@ -73,7 +73,7 @@ public class MainFrame extends JFrame {
         
         JPanel strongestPanel = new JPanel();
         strongestPanel.setLayout(new GridLayout(2, 2));
-        strongestPanel.setBackground(Color.gray);
+        //strongestPanel.setBackground(Color.gray);
 
         strongestMatch = new JLabel("File: ");
         strongestMatch.setFont(new Font("Arial", Font.BOLD, 13));
@@ -203,6 +203,7 @@ public class MainFrame extends JFrame {
         selectButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Only allow directories
+            fileChooser.setCurrentDirectory(new java.io.File("."));
             fileChooser.showOpenDialog(null);
             if (fileChooser.getSelectedFile() != null) {
                 searchButton.setEnabled(false);
@@ -315,25 +316,12 @@ public class MainFrame extends JFrame {
         for (String file : fileOccurrences.keySet()) {
             String fn = file.substring(file.lastIndexOf("\\") + 1);
             fn = fn.substring(0, fn.lastIndexOf("."));
-            dataset.setValue(fn, fileOccurrences.get(file));
+            dataset.setValue(fn, fileOccurrences.get(file) * 100 / total);
         }
 
         JFreeChart chart = ChartFactory.createPieChart("File Occurrences", dataset);
         ChartPanel chartPanelComponent = new ChartPanel(chart);
         percentagePanel.add(chartPanelComponent);
-
-        // add labels to percentage panel
-        //JLabel totalLabel = new JLabel("Total: " + total);
-        //percentagePanel.add(totalLabel);
-        // Add percentage each file contributes
-        //for (String file : fileOccurrences.keySet()) {
-        //    String fn = file.substring(file.lastIndexOf("\\") + 1);
-        //    fn = fn.substring(0, fn.lastIndexOf("."));
-        //    JLabel label = new JLabel(fn + ": " + (fileOccurrences.get(file) * 100 / total) + "%");
-        //    percentagePanel.add(label);
-        //}
-
-
         percentagePanel.revalidate();
         percentagePanel.repaint();
 
