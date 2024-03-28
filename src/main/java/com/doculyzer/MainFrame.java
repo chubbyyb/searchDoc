@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
     private JLabel strongestMatch;
     private JPanel percentagePanel;
     private JLabel similarTexts;
-    app app = new app(); // Create an instance of the app class
+    WordCheck WordCheck = new WordCheck(); // Create an instance of the WordCheck class
     SimilarityCheck similarityCheck = new SimilarityCheck();
     
     public void initialize() {
@@ -152,8 +152,8 @@ public class MainFrame extends JFrame {
                 return;
             }
             System.out.println("Searching for: " + textField.getText());
-            // call checkWordInFile method from app class
-            HashMap<String, Integer> occurences = app.checkWordInFile(textField.getText(), selectedFiles.toArray(new String[0]));
+            // call checkWordInFile method from WordCheck class
+            HashMap<String, Integer> occurences = WordCheck.checkWordInFile(textField.getText(), selectedFiles.toArray(new String[0]));
             // print the occurences
             for (String file : occurences.keySet()) {
                 System.out.println(file + ": " + occurences.get(file));
@@ -162,7 +162,7 @@ public class MainFrame extends JFrame {
             createStats(occurences);
             //boolean similar = similarityCheck.check(selectedFiles.toArray(new String[0]));
             //System.out.println("Similar: " + similar);
-            //HashMap<String, Integer> percentageText = app.percentageOfText();
+            //HashMap<String, Integer> percentageText = WordCheck.percentageOfText();
             // print the occurences
             //for (String file : percentageText.keySet()) {
             //    System.out.println(file + ":gyat " + percentageText.get(file));
@@ -189,12 +189,12 @@ public class MainFrame extends JFrame {
         JCheckBox caseMatchBtn = new JCheckBox("Case Match");
         // set to true
         caseMatchBtn.setSelected(true);
-        app.setCaseMatch(true);
+        WordCheck.setCaseMatch(true);
 
         caseMatchBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                app.setCaseMatch(e.getStateChange() == ItemEvent.SELECTED);
+                WordCheck.setCaseMatch(e.getStateChange() == ItemEvent.SELECTED);
             }
         });
         verticalPanel.add(caseMatchBtn);
@@ -203,11 +203,11 @@ public class MainFrame extends JFrame {
         JCheckBox wholeWordMatchBtn = new JCheckBox("Whole Word Match");
         // set to true
         wholeWordMatchBtn.setSelected(true);
-        app.setWholeWordMatch(true);
+        WordCheck.setWholeWordMatch(true);
         wholeWordMatchBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                app.setWholeWordMatch(e.getStateChange() == ItemEvent.SELECTED);
+                WordCheck.setWholeWordMatch(e.getStateChange() == ItemEvent.SELECTED);
             }
         });
         verticalPanel.add(wholeWordMatchBtn);
