@@ -74,26 +74,6 @@ public class app {
         }
         return fileOccurrences;
     }
-
-    // unused function
-    public HashMap<String, Integer> percentageOfText()
-    {
-        // calculate percentage using totalwords and fileoccurrences, it has already been called
-        // print the number of words in each file
-        for (String file : totalWords.keySet()) {
-            System.out.println("Total words in " + file + ": " + totalWords.get(file));
-        }
-        // print the number of occurrences of the word in each file
-        for (String file : fileOccurrences.keySet()) {
-            System.out.println("Occurrences in " + file + ": " + fileOccurrences.get(file));
-        }
-        HashMap<String, Integer> percentage = new HashMap<>();
-        for (String file : fileOccurrences.keySet()) {
-            percentage.put(file, (int)(fileOccurrences.get(file) * 100) / totalWords.get(file)); // calculate percentage
-        }
-        return percentage;
-
-    }
     
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
