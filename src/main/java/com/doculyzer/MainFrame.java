@@ -28,12 +28,14 @@ public class MainFrame extends JFrame {
     private JLabel strongestCount;
     private JLabel strongestMatch;
     private JPanel percentagePanel;
+    private JLabel similarTexts;
     app app = new app(); // Create an instance of the app class
     SimilarityCheck similarityCheck = new SimilarityCheck();
     
     public void initialize() {
         this.setTitle("Document Analyzer");
-        this.setSize(800, 500);
+        this.setSize(1100, 500);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
@@ -83,6 +85,10 @@ public class MainFrame extends JFrame {
         strongestCount = new JLabel("Count: ");
         strongestCount.setFont(new Font("Arial", Font.BOLD, 24));
         strongestPanel.add(strongestCount);
+        
+        similarTexts = new JLabel("Similar Texts: ");
+        similarTexts.setFont(new Font("Arial", Font.BOLD, 24));
+        strongestPanel.add(similarTexts);
 
         strongestPanel.add(new JPanel());
         mainGrid.add(strongestPanel);
@@ -91,6 +97,7 @@ public class MainFrame extends JFrame {
         // Chart panel
         chartPanel = new JPanel();
         chartPanel.setLayout(new BorderLayout());
+        chartPanel.setBackground(Color.WHITE);
 
         mainGrid.add(chartPanel);
 
@@ -153,6 +160,8 @@ public class MainFrame extends JFrame {
             }
             createChart(occurences);
             createStats(occurences);
+            //boolean similar = similarityCheck.check(selectedFiles.toArray(new String[0]));
+            //System.out.println("Similar: " + similar);
             //HashMap<String, Integer> percentageText = app.percentageOfText();
             // print the occurences
             //for (String file : percentageText.keySet()) {
@@ -160,6 +169,21 @@ public class MainFrame extends JFrame {
             //}
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
+
+        // add similarity button
+        JButton similarityButton = new JButton("Similarity");
+        similarityButton.setPreferredSize(new Dimension(150, 30));
+        similarityButton.addActionListener(e -> {
+            // button only clickable when only 2 files are selected
+            if (selectedFiles.size() != 2) {
+                JOptionPane.showMessageDialog(this, "Please select exactly 2 files to compare", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            boolean similar = similarityCheck.check(selectedFiles.toArray(new String[0]));
+            similarTexts.setText("Similar Texts: " + similar);
+        });
+        flowPanel.add(similarityButton);
+
 
         // add checkbox label on top of the text box
         JCheckBox caseMatchBtn = new JCheckBox("Case Match");
@@ -191,6 +215,7 @@ public class MainFrame extends JFrame {
 
         percentagePanel = new JPanel();
         percentagePanel.setLayout(new BorderLayout());
+        percentagePanel.setBackground(Color.WHITE);
         mainGrid.add(percentagePanel);
 
         // dirLabel

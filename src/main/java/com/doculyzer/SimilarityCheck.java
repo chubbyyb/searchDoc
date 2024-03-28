@@ -16,8 +16,9 @@ import org.apache.commons.text.similarity.CosineSimilarity;
 
 public class SimilarityCheck {
 
-    public void check(String[] bookPaths) {
+    public boolean check(String[] bookPaths) {
         //String[] bookPaths = {"C:\\Users\\keith\\Documents\\oop 2\\doculyzer\\sample\\new_carthage.txt", "C:\\Users\\keith\\Documents\\oop 2\\doculyzer\\sample\\rome.txt"};
+        boolean similar = false;
 
         try {
             List<Map<CharSequence, Integer>> bookContents = new ArrayList<>();
@@ -33,14 +34,16 @@ public class SimilarityCheck {
             boolean sameTopic = checkSameTopic(bookContents, similarityThreshold);
 
             if (sameTopic) {
-                System.out.println("The books are about the same topic.");
+                similar = true;
             } else {
-                System.out.println("The books are not about the same topic.");
+                similar = false;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return similar;
     }
 
     // Read text from file and create a word frequency map
