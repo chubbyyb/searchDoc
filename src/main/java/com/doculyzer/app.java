@@ -23,17 +23,17 @@ public class app {
         this.wholeWordMatch = wholeWordMatch;
     }
 
-    public HashMap<String, Integer> checkWordInFile(String wordPattern, String[] selectedFiles) {
+    public HashMap<String, Integer> checkWordInFile(String wordPattern, String[] selectedFiles) { // wordPattern is the word to search for
         
-        totalWords.clear();
-        fileOccurrences.clear();
+        totalWords.clear(); // clear the totalWords dictionary
+        fileOccurrences.clear(); // clear the fileOccurrences dictionary
 
         if (!caseMatch) {
-            wordPattern = "(?i)" + wordPattern;
+            wordPattern = "(?i)" + wordPattern; // case insensitive
         }
 
         if (wholeWordMatch) {
-            wordPattern = "\\b" + wordPattern + "\\b";
+            wordPattern = "\\b" + wordPattern + "\\b"; // whole word match
         }
 
         // Compile the regular expression pattern
@@ -89,7 +89,7 @@ public class app {
         }
         HashMap<String, Integer> percentage = new HashMap<>();
         for (String file : fileOccurrences.keySet()) {
-            percentage.put(file, (int)(fileOccurrences.get(file) * 100) / totalWords.get(file));
+            percentage.put(file, (int)(fileOccurrences.get(file) * 100) / totalWords.get(file)); // calculate percentage
         }
         return percentage;
 

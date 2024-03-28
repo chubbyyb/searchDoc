@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
     private JLabel strongestMatch;
     private JPanel percentagePanel;
     app app = new app(); // Create an instance of the app class
+    SimilarityCheck similarityCheck = new SimilarityCheck();
     
     public void initialize() {
         this.setTitle("Document Analyzer");
@@ -76,11 +77,11 @@ public class MainFrame extends JFrame {
         //strongestPanel.setBackground(Color.gray);
 
         strongestMatch = new JLabel("File: ");
-        strongestMatch.setFont(new Font("Arial", Font.BOLD, 13));
+        strongestMatch.setFont(new Font("Arial", Font.BOLD, 24));
         strongestPanel.add(strongestMatch);
 
         strongestCount = new JLabel("Count: ");
-        strongestCount.setFont(new Font("Arial", Font.BOLD, 13));
+        strongestCount.setFont(new Font("Arial", Font.BOLD, 24));
         strongestPanel.add(strongestCount);
 
         strongestPanel.add(new JPanel());
