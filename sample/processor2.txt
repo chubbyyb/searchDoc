@@ -1,0 +1,30 @@
+A processor (CPU) is the logic circuitry that responds to and processes the basic instructions that drive a computer. The CPU is seen as the main and most crucial integrated circuitry (IC) chip in a computer, as it is responsible for interpreting most of computers commands. CPUs will perform most basic arithmetic, logic and I/O operations, as well as allocate commands for other chips and components running in a computer.
+
+The term processor is used interchangeably with the term central processing unit (CPU), although strictly speaking, the CPU is not the only processor in a computer. The GPU (graphics processing unit) is the most notable example, but the hard drive and other devices within a computer also perform some processing independently. Nevertheless, the term processor is generally understood to mean the CPU.
+
+Processors can be found in PCs, smartphones, tablets and other computers. The two main competitors in the processor market are Intel and AMD.
+
+The basic elements of a processor
+The basic elements of a processor include:
+
+The arithmetic logic unit (ALU), which carries out arithmetic and logic operationson the operands in instructions. 
+The floating point unit (FPU), also known as a math coprocessor or numeric coprocessor, a specialized coprocessorthat manipulates numbers more quickly than the basic microprocessor circuitry can.
+Registers, which hold instructions and other data. Registers supply operands to the ALU and store the results of operations.
+L1 and L2cache memory. Their inclusion in the CPU saves time compared to having to get data from random access memory (RAM).
+CPU Operations
+The four primary Functions of a processor are fetch, decode, execute and write back.
+
+Fetch- is the operation which receives instructions from program memory from a systems RAM.
+Decode- is where the instruction is converted to understand which other parts of the CPU are needed to continue the operation. This is performed by the instruction decoder
+Execute- is where the operation is performed. Each part of the CPU that is needed is activated to carry out the instructions.
+Components and how CPUs work
+The main components of a CPU are the ALU, registers and control unit. The basic functions of the ALU and register are labeled in the above “basic elements of a processor section.” The control unit is what operates the fetching and execution of instructions.
+
+The processor in a personal computer or embedded in small devices is often called a microprocessor. That term means that the processor's elements are contained in a single IC chip. Some computers will operate using a multi-core processor—a chip containing more than one CPU. A CPU is typically a small device with pins on it facing down in a motherboard. CPUs can also be attached to a motherboard with a heat sink and a fan to dissipate heat.  
+
+Types
+Most processors today are multi-core, which means that the IC contains two or more processors for enhanced performance, reduced power consumption and more efficient simultaneous processing of multiple tasks (see: parallel processing). Multi-core set-ups are similar to having multiple, separate processors installed in the same computer, but because the processors are actually plugged into the same socket, the connection between them is faster. 
+
+Most computers may have up to two-four cores; however, this number can increase up to 12 cores, for example. If a CPU can only process a single set of instructions at one time, then it is considered as a single-core processor. If a CPU can process two sets of instructions at a time it is called a dual-core processor; four sets would be considered a quad-core processor. The more cores, the more instructions at a time a computer can handle.
+
+Some processors use multi-threading, which uses virtualized processor cores. Virtualized processor cores are called vCPUs. These are not as powerful as physical cores but can be used to improve performance in virtual machines (VMs). However, adding unnecessary vCPUs can hurt consolidation ratios, so there should be about four-six vCPUs per physical core.
