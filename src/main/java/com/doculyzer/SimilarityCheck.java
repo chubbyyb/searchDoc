@@ -30,7 +30,7 @@ public class SimilarityCheck {
             }
 
             // Calculate similarity between books
-            double similarityThreshold = 0.6; // Define your threshold
+            double similarityThreshold = 0.75; // Define your threshold
             boolean sameTopic = checkSameTopic(bookContents, similarityThreshold);
 
             if (sameTopic) {
