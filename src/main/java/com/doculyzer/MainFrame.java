@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
     public void initialize() {
         this.setTitle("Document Analyzer");
         this.setSize(1100, 500);
-        this.setResizable(false);
+        this.setMinimumSize(new Dimension(1100, 500));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
