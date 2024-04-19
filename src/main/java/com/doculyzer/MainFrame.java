@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-
-
 public class MainFrame extends JFrame {
     private JButton searchButton; // Declare searchButton as a field
     private ArrayList<String> selectedFiles = new ArrayList<>(); // List of selected files
@@ -31,7 +29,7 @@ public class MainFrame extends JFrame {
     private JLabel similarTexts;
     WordCheck WordCheck = new WordCheck(); // Create an instance of the WordCheck class
     SimilarityCheck similarityCheck = new SimilarityCheck();
-    
+
     public void initialize() {
         this.setTitle("Document Analyzer");
         this.setSize(1100, 500);
@@ -57,13 +55,13 @@ public class MainFrame extends JFrame {
         // Main Panel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout()); // Change layout to BorderLayout
-        //mainPanel.setBackground(Color.gray);
+        // mainPanel.setBackground(Color.gray);
         this.add(mainPanel, BorderLayout.CENTER);
 
         // Main Grid
         JPanel mainGrid = new JPanel();
-        //mainGrid.setBackground(Color.gray);
-        mainGrid.setLayout(new GridLayout(2,2));
+        // mainGrid.setBackground(Color.gray);
+        mainGrid.setLayout(new GridLayout(2, 2));
         mainPanel.add(mainGrid, BorderLayout.CENTER);
 
         // Text box panel
@@ -73,10 +71,9 @@ public class MainFrame extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainPanel.add(scrollPane, BorderLayout.WEST); // Add to the left of main panel
 
-        
         JPanel strongestPanel = new JPanel();
         strongestPanel.setLayout(new GridLayout(2, 2));
-        //strongestPanel.setBackground(Color.gray);
+        // strongestPanel.setBackground(Color.gray);
 
         strongestMatch = new JLabel("File: ");
         strongestMatch.setFont(new Font("Arial", Font.BOLD, 24));
@@ -85,7 +82,7 @@ public class MainFrame extends JFrame {
         strongestCount = new JLabel("Count: ");
         strongestCount.setFont(new Font("Arial", Font.BOLD, 24));
         strongestPanel.add(strongestCount);
-        
+
         similarTexts = new JLabel("Similar Texts: ");
         similarTexts.setFont(new Font("Arial", Font.BOLD, 24));
         strongestPanel.add(similarTexts);
@@ -93,7 +90,6 @@ public class MainFrame extends JFrame {
         strongestPanel.add(new JPanel());
         mainGrid.add(strongestPanel);
 
-        
         // Chart panel
         chartPanel = new JPanel();
         chartPanel.setLayout(new BorderLayout());
@@ -103,7 +99,8 @@ public class MainFrame extends JFrame {
 
         // Search Panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BorderLayout());;
+        searchPanel.setLayout(new BorderLayout());
+        ;
         mainGrid.add(searchPanel);
 
         // Add flow layout to bottom of search panel
@@ -134,8 +131,6 @@ public class MainFrame extends JFrame {
         });
         verticalPanel2.add(regexBtn, BorderLayout.SOUTH);
 
-
-
         // Search Text box
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 30));
@@ -153,20 +148,22 @@ public class MainFrame extends JFrame {
             }
             System.out.println("Searching for: " + textField.getText());
             // call checkWordInFile method from WordCheck class
-            HashMap<String, Integer> occurences = WordCheck.checkWordInFile(textField.getText(), selectedFiles.toArray(new String[0]));
+            HashMap<String, Integer> occurences = WordCheck.checkWordInFile(textField.getText(),
+                    selectedFiles.toArray(new String[0]));
             // print the occurences
             for (String file : occurences.keySet()) {
                 System.out.println(file + ": " + occurences.get(file));
             }
             createChart(occurences);
             createStats(occurences);
-            //boolean similar = similarityCheck.check(selectedFiles.toArray(new String[0]));
-            //System.out.println("Similar: " + similar);
-            //HashMap<String, Integer> percentageText = WordCheck.percentageOfText();
+            // boolean similar = similarityCheck.check(selectedFiles.toArray(new
+            // String[0]));
+            // System.out.println("Similar: " + similar);
+            // HashMap<String, Integer> percentageText = WordCheck.percentageOfText();
             // print the occurences
-            //for (String file : percentageText.keySet()) {
-            //    System.out.println(file + ":gyat " + percentageText.get(file));
-            //}
+            // for (String file : percentageText.keySet()) {
+            // System.out.println(file + ":gyat " + percentageText.get(file));
+            // }
         });
         flowPanel.add(searchButton); // Add without specifying any constraints
 
@@ -176,14 +173,14 @@ public class MainFrame extends JFrame {
         similarityButton.addActionListener(e -> {
             // button only clickable when only 2 files are selected
             if (selectedFiles.size() != 2) {
-                JOptionPane.showMessageDialog(this, "Please select exactly 2 files to compare", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select exactly 2 files to compare", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             boolean similar = similarityCheck.check(selectedFiles.toArray(new String[0]));
             similarTexts.setText("Similar Texts: " + similar);
         });
         flowPanel.add(similarityButton);
-
 
         // add checkbox label on top of the text box
         JCheckBox caseMatchBtn = new JCheckBox("Case Match");
@@ -211,7 +208,6 @@ public class MainFrame extends JFrame {
             }
         });
         verticalPanel.add(wholeWordMatchBtn);
-        
 
         percentagePanel = new JPanel();
         percentagePanel.setLayout(new BorderLayout());
@@ -264,7 +260,8 @@ public class MainFrame extends JFrame {
                             if (e.getStateChange() == ItemEvent.SELECTED) { // Add to selectedFiles if selected
                                 System.out.println("Selected: " + txtFile);
                                 selectedFiles.add(dirPath + '\\' + txtFile);
-                            } else if (e.getStateChange() == ItemEvent.DESELECTED) { // Remove from selectedFiles if deselected
+                            } else if (e.getStateChange() == ItemEvent.DESELECTED) { // Remove from selectedFiles if
+                                                                                     // deselected
                                 System.out.println("Deselected: " + txtFile);
                                 selectedFiles.remove(dirPath + '\\' + txtFile);
                             }
@@ -288,8 +285,7 @@ public class MainFrame extends JFrame {
     }
 
     // take in HashMap<String, Integer> fileOccurrences and create a bar chart
-    private void createChart(HashMap<String, Integer> fileOccurrences)
-    {
+    private void createChart(HashMap<String, Integer> fileOccurrences) {
         // Destroy old chart if exists
         chartPanel.removeAll();
 
@@ -312,13 +308,13 @@ public class MainFrame extends JFrame {
             }
             dataset.addValue(count, "Appearances", fileName);
         }
-        
+
         // Creating the bar chart
         JFreeChart chart = ChartFactory.createBarChart(
-                "Appearences",      // chart title
-                "Category",       // domain axis label
-                "Value",          // range axis label
-                dataset);         // data
+                "Appearences", // chart title
+                "Category", // domain axis label
+                "Value", // range axis label
+                dataset); // data
 
         // Creating a ChartPanel to hold the chart
         ChartPanel chartPanelComponent = new ChartPanel(chart);
@@ -332,8 +328,7 @@ public class MainFrame extends JFrame {
         chartPanel.repaint();
     }
 
-    private void createStats(HashMap<String, Integer> fileOccurrences)
-    {
+    private void createStats(HashMap<String, Integer> fileOccurrences) {
         // clear the panel
         percentagePanel.removeAll();
 
