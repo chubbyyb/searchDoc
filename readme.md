@@ -45,7 +45,7 @@ System.out.println("Are the documents similar? " + similar);
 ```
 
 ## Dependencies
-Doculyzer uses the Apache Commons Text library for calculating cosine similarity. To use this library, add the following dependency to your pom.xml file:
+Add the following dependency to your pom.xml file:
 
 ```xml
     <dependencies>
